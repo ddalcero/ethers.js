@@ -21,7 +21,7 @@ process.on('unhandledRejection', function(reason, p){
 });
 
 var compile = (function() {
-    var soljson = require('../soljson.js');
+    var soljson = require('../soljson-4.19.js');
     var _compile = soljson.cwrap("compileJSONCallback", "string", ["string", "number", "number"]);
 
     function compile(source) {
@@ -80,7 +80,7 @@ function waitForTransaction(hash) {
 
 // Create the indent given a tabstop
 function indent(tabs) {
-    var indent = new Buffer(tabs * 4);
+    var indent = Buffer.alloc(tabs * 4);
     indent.fill(32);
     return indent.toString('utf8')
 }
@@ -104,8 +104,11 @@ function createContractSource(test, comments) {
         if (param.type === 'string') {
             source += (indent(2) + 's' + index + ' = "' + param.value + '";\n');
 
+        } else if (param.type === 'bool') {
+            source += (indent(2) + 's' + index + ' = ' + (param.value ? 'true': 'false') + ';\n');
+
         } else if (param.type === 'bytes') {
-            var value = new Buffer(param.value.substring(2), 'hex');
+            var value = Buffer.from(param.value.substring(2), 'hex');
             source += indent(2) + 's' + index + ' = new bytes(' + value.length + ');\n';
             source += indent(2) + 'assembly {\n';
             source += indent(3) + 'mstore(s' + index + ', ' + value.length + ')\n';
@@ -321,7 +324,7 @@ function makeTests() {
     });
 
     function generate(seed, onlyStatic) {
-        switch (utils.randomNumber(seed + '-type', 0, (onlyStatic ? 3: 6))) {
+        switch (utils.randomNumber(seed + '-type', 0, (onlyStatic ? 4: 7))) {
             case 0:
                 return {
                     type: 'address',
@@ -364,6 +367,13 @@ function makeTests() {
                    }
                };
             case 3:
+                return {
+                    type: 'bool',
+                    value: function(extra) {
+                       return utils.randomNumber(seed + '-bool-' + extra, 0, 2) ? true: false;
+                    }
+                };
+            case 4:
                var longText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
                return {
                    type: 'string',
@@ -371,14 +381,14 @@ function makeTests() {
                        return longText.substring(0, utils.randomNumber(seed + '-string-' + extra, 0, longText.length));
                    }
                };
-            case 4:
+            case 5:
                 return {
                     type: 'bytes',
                     value: function(extra) {
                         return utils.randomHexString(seed + '-bytes-' + extra, 0, 67);
                     }
                 }
-            case 5:
+            case 6:
                var kind = generate(seed + '-arrayKind', true);
                var depth = utils.randomNumber(seed + '-arrayDepth', 1, 4);
                var sizes = [];
@@ -460,6 +470,7 @@ function makeTests() {
                 console.log(contracts);
                 console.log(test);
                 console.log(source);
+                console.log('Bailing');
                 process.exit();
             }
 
@@ -495,10 +506,10 @@ function makeTests() {
                     if (param.indexed && isHashed(param.type)) {
                         hashed.push(true);
                         if (param.type === 'string') {
-                            normalizedValues.push(keccak256(new Buffer(param.value, 'utf8')));
+                            normalizedValues.push(keccak256(Buffer.from(param.value, 'utf8')));
 
                         } else if (param.type === 'bytes') {
-                            normalizedValues.push(keccak256(new Buffer(param.value.substring(2), 'hex')));
+                            normalizedValues.push(keccak256(Buffer.from(param.value.substring(2), 'hex')));
 
                         } else if (param.type.indexOf('[') >= 0) {
                             var compute = param.type;
@@ -526,6 +537,10 @@ function makeTests() {
                                     return input;
                                 }
 
+                                if (typeof(input) === 'boolean') {
+                                    return input;
+                                }
+
                                 return web3.toBigNumber(input);
                             }
 
@@ -534,7 +549,7 @@ function makeTests() {
                             // The web3 coder has lots of bugs, but it does fine as long as there
                             // is only one type and nothing is dynamic
                             var encoded = web3Coder.encodeParams([ compute ], [ web3Value ]);
-                            normalizedValues.push(keccak256(new Buffer(encoded, 'hex')));
+                            normalizedValues.push(keccak256(Buffer.from(encoded, 'hex')));
 
                         } else {
                             throw new Error('unknown hashed type');

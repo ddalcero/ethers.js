@@ -1,25 +1,15 @@
-'use strict';
-
-var contracts = require('ethers-contracts');
-var providers = require('ethers-providers');
-var utils = require('ethers-utils');
-var wallet = require('ethers-wallet');
-
-module.exports = {
-    SigningKey: wallet.SigningKey,
-    Wallet: wallet.Wallet,
-
-    HDNode: wallet.HDNode,
-
-    Contract: contracts.Contract,
-    Interface: contracts.Interface,
-
-    networks: providers.networks,
-    providers: providers,
-
-    utils: utils,
-
-    _SigningKey: wallet.SigningKey,
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
 };
-
-require('ethers-utils/standalone.js')(module.exports);
+Object.defineProperty(exports, "__esModule", { value: true });
+var ethers = __importStar(require("./ethers"));
+exports.ethers = ethers;
+__export(require("./ethers"));

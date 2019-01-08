@@ -1,14 +1,13 @@
-Gruntfile.js
+# Config files for testing and linting
+.eslintrc.js
+.travis.yml
 
-# If you need these, checkout GitHub
-docs/
-examples/
+# This is only needed for building dist and library files
+gulpfile.js
 
-# These are all included by their sub-packages in npm
-utils/
-contracts/
-providers/
-wallet/
+# We do not need the TypeScipt source in deployments
+tsconfig.json
+src.ts/
 
 # To run tests, checkout GitHub
 tests/

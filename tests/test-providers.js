@@ -1,11 +1,14 @@
 'use strict';
 
 var assert = require('assert');
+var Web3HttpProvider = require('web3-providers-http');
 
-var providers = require('../providers');
+var utils = require('./utils');
+var ethers = utils.getEthers(__filename);
 
-var bigNumberify = require('../utils/bignumber').bigNumberify;
-var getAddress = require('../utils/address').getAddress;
+//var providers = ethers.providers;
+var bigNumberify = ethers.utils.bigNumberify;
+var getAddress = ethers.utils.getAddress;
 
 var blockchainData = {
     homestead: {
@@ -61,8 +64,7 @@ var blockchainData = {
                     topics: [ "0xce0457fe73731f824cc272376169235128c118b49d344817417c6d108d155e82", "0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae", "0xf0106919d12469348e14ad6a051d0656227e1aba2fefed41737fdf78421b20e1" ],
                     transactionHash: "0xc6fcb7d00d536e659a4559d2de29afa9e364094438fef3e72ba80728ce1cb616",
                     transactionIndex: 0x39,
-                    transactionLogIndex: 0x0,
-                    type:"mined"
+                    transactionLogIndex: 0x0
                 },
                 {
                     address: "0x6090A6e47849629b7245Dfa1Ca21D94cd15878Ef",
@@ -73,8 +75,7 @@ var blockchainData = {
                     topics: [ "0x0f0c27adfd84b60b6f456b0e87cdccb1e5fb9603991588d87fa99f5b6b61e670", "0xf0106919d12469348e14ad6a051d0656227e1aba2fefed41737fdf78421b20e1", "0x00000000000000000000000018c6045651826824febbd39d8560584078d1b247"],
                     transactionHash: "0xc6fcb7d00d536e659a4559d2de29afa9e364094438fef3e72ba80728ce1cb616",
                     transactionIndex: 0x39,
-                    transactionLogIndex: 0x1,
-                    type: "mined"
+                    transactionLogIndex: 0x1
                 }
             ],
             "logsBloom": "0x00000000000000040000000000100000010000000000000040000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000200000010000000004000000000000000000000000000000000002000000000000000000000000400000000020000000000000000000000000000000000000004000000000000000000000000000000000000000000000000801000000000000000000000020000000000040000000040000000000000000002000000004000000000000000000000000000000000000000000000010000000000000000000000000000000000200000000000000000",
@@ -100,8 +101,7 @@ var blockchainData = {
                     topics: [ "0x748d071d1992ee1bfe7a39058114d0a50d5798fe8eb3a9bfb4687f024629a2ce", "0x5574aa58f7191ccab6de6cf75fe2ea0484f010b852fdd8c6b7ae151d6c2f4b83" ],
                     transactionHash: "0x7f1c6a58dc880438236d0b0a4ae166e9e9a038dbea8ec074149bd8b176332cac",
                     transactionIndex: 0x1e,
-                    transactionLogIndex: 0x0,
-                    type:"mined"
+                    transactionLogIndex: 0x0
                 }
             ],
             logsBloom: "0x00000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000200000000000000008000000000000000000000000000000000000000000000000000000000000000010000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000800000000000000000800000000000000000000000000000000000000",
@@ -150,7 +150,7 @@ var blockchainData = {
     ropsten: {
         balance: {
             address: '0x03a6F7a5ce5866d9A0CCC1D4C980b8d523f80480',
-            balance: bigNumberify('21991148575128552666')
+            balance: bigNumberify('15861113897828552666')
         },
         block3: {
             hash: '0xaf2f2d55e6514389bcc388ccaf40c6ebf7b3814a199a214f1203fb674076e6df',
@@ -181,8 +181,7 @@ var blockchainData = {
                     topics:[ "0xac375770417e1cb46c89436efcf586a74d0298fee9838f66a38d40c65959ffda" ],
                     transactionHash: "0x55c477790b105e69e98afadf0505cbda606414b0187356137132bf24945016ce",
                     transactionIndex: 0x0,
-                    transactionLogIndex: 0x0,
-                    type: "mined"
+                    transactionLogIndex: 0x0
                 }
             ],
             logsBloom: "0x00000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000010000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -207,8 +206,7 @@ var blockchainData = {
                     topics: [ "0xb76d0edd90c6a07aa3ff7a222d7f5933e29c6acc660c059c97837f05c4ca1a84" ],
                     transactionHash: "0xf724f1d6813f13fb523c5f6af6261d06d41138dd094fff723e09fb0f893f03e6",
                     transactionIndex: 0x2,
-                    transactionLogIndex: 0x0,
-                    type: "mined"
+                    transactionLogIndex: 0x0
                 }
             ],
             logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000080000000202000000",
@@ -221,7 +219,6 @@ var blockchainData = {
 
 blockchainData['default'] = blockchainData.homestead;
 function equals(name, actual, expected) {
-
     if (expected && expected.eq) {
         if (actual == null) { assert.ok(false, name + ' - actual big number null'); }
         assert.ok(expected.eq(actual), name + ' matches');
@@ -230,7 +227,7 @@ function equals(name, actual, expected) {
         if (actual == null) { assert.ok(false, name + ' - actual array null'); }
         assert.equal(actual.length, expected.length, name + ' array lengths match');
         for (var i = 0; i < expected.length; i++) {
-            equals(name + ' - item ' + i, actual[i], expected[i]);
+            equals('(' + name + ' - item ' + i + ')', actual[i], expected[i]);
         }
     } else if (typeof(expected) === 'object') {
         if (actual == null) {
@@ -243,7 +240,7 @@ function equals(name, actual, expected) {
         Object.keys(actual).forEach(function(key) { keys[key] = true; });
 
         Object.keys(keys).forEach(function(key) {
-            equals(name + ' - key + ' + key, actual[key], expected[key]);
+            equals('(' + name + ' - key + ' + key + ')', actual[key], expected[key]);
         });
 
     } else {
@@ -257,15 +254,21 @@ function testProvider(providerName, networkName) {
         var provider = null;
         if (networkName === 'default') {
             if (providerName === 'getDefaultProvider') {
-                provider = providers.getDefaultProvider();
+                provider = ethers.getDefaultProvider();
+            } else if (providerName === 'Web3Provider') {
+                var infuraUrl = (new ethers.providers.InfuraProvider()).connection.url;
+                provider = new ethers.providers.Web3Provider(new Web3HttpProvider(infuraUrl));
             } else {
-                provider = new providers[providerName]();
+                provider = new ethers.providers[providerName]();
             }
         } else {
             if (providerName === 'getDefaultProvider') {
-                provider = providers.getDefaultProvider(networkName);
+                provider = ethers.getDefaultProvider(networkName);
+            } else if (providerName === 'Web3Provider') {
+                var infuraUrl = (new ethers.providers.InfuraProvider(networkName)).connection.url;
+                provider = new ethers.providers.Web3Provider(new Web3HttpProvider(infuraUrl), networkName);
             } else {
-                provider = new providers[providerName](networkName);
+                provider = new ethers.providers[providerName](networkName);
             }
         }
 
@@ -288,6 +291,7 @@ function testProvider(providerName, networkName) {
             //         assert(_owner.send(this.balance - 0.0000314159 ether));
             //     }
             //  }
+
             this.timeout(100000);
             var test = blockchainData[networkName].balance;
             return provider.getBalance(test.address).then(function(balance) {
@@ -298,6 +302,11 @@ function testProvider(providerName, networkName) {
         function testTransactionReceipt(expected) {
             var title = ('Receipt ' + expected.transactionHash.substring(0, 10) + ' - ');
             return provider.getTransactionReceipt(expected.transactionHash).then(function(receipt) {
+
+                // This changes with every block
+                assert.equal(typeof(receipt.confirmations), 'number', 'confirmations is a number');
+                delete receipt.confirmations;
+
                 for (var key in receipt) {
                     equals((title + key), receipt[key], expected[key]);
                 }
@@ -308,7 +317,7 @@ function testProvider(providerName, networkName) {
         if (blockchainData[networkName].transactionReceipt) {
             it('fetches pre-Byzantium transaction receipt', function() {
                 this.timeout(100000);
-                 return testTransactionReceipt(blockchainData[networkName].transactionReceipt);
+                return testTransactionReceipt(blockchainData[networkName].transactionReceipt);
             });
         }
 
@@ -322,6 +331,14 @@ function testProvider(providerName, networkName) {
         function testTransaction(expected) {
             var title = ('Transaction ' + expected.hash.substring(0, 10) + ' - ');
             return provider.getTransaction(expected.hash).then(function(tx) {
+
+                // This changes with every block
+                assert.equal(typeof(tx.confirmations), 'number', 'confirmations is a number');
+                delete tx.confirmations;
+
+                assert.equal(typeof(tx.wait), 'function', 'wait is a function');
+                delete tx.wait
+
                 for (var key in tx) {
                     equals((title + key), tx[key], expected[key]);
                 }
@@ -354,23 +371,20 @@ function testProvider(providerName, networkName) {
 }
 
 ['default', 'homestead', 'ropsten', 'rinkeby', 'kovan'].forEach(function(networkName) {
-    ['getDefaultProvider', 'InfuraProvider', 'EtherscanProvider'].forEach(function(providerName) {
+    ['getDefaultProvider', 'InfuraProvider', 'EtherscanProvider', 'Web3Provider'].forEach(function(providerName) {
 
-        // HACK! Etherscan is being cloudflare heavy right now and I need
-        // to release a new version; temporarily turning off these tests
-        //console.log('WARNING: Test cases being skipped! Temporary. Please turn backon soon.');
-        //if (providerName === 'EtherscanProvider' && networkName !== 'homestead') { return; }
-
-        // HACK! INFURA is flakey on homestead right now and the test cases are failing
-        console.log('WARNING: Test cases being skipped! Temporary. Please turn backon soon.');
-        if (providerName === 'InfuraProvider' && networkName === 'homestead') { return; }
+        // @TODO: Remove this! Temporary because Etherscan is down
+        //if (providerName === 'EtherscanProvider') {
+        //    console.log("******** Remove this soon! Etherscan is having issues.");
+        //    return;
+        //}
 
         testProvider(providerName, networkName);
     });
 });
-
+/*
 function getDefaults(network, extra) {
-    var network = providers.networks[network];
+    var network = ethers.utils.getNetwork(network);
     var result = {
         chainId: network.chainId,
         ensAddress: (network.ensAddress ? getAddress(network.ensAddress): null),
@@ -382,281 +396,68 @@ function getDefaults(network, extra) {
     }
     return result;
 }
-
-
-var LegacyParameters = [
-
-    // InfuraProvider
-    {
-        create: function() {
-            return new providers.InfuraProvider();
-        },
-        name: 'InfuraProvider - defaults',
-        properties: getDefaults('homestead', { apiAccessToken: null })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider(false);
-        },
-        name: 'InfuraProvider - false',
-        properties: getDefaults('homestead', { apiAccessToken: null })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider('homestead');
-        },
-        name: 'InfuraProvider - homestead',
-        properties: getDefaults('homestead', { apiAccessToken: null })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider(false, 'abcdefg');
-        },
-        name: 'InfuraProvider - false + API token',
-        properties: getDefaults('homestead', { apiAccessToken: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider('homestead', 'abcdefg');
-        },
-        name: 'InfuraProvider - homestead + API token',
-        properties: getDefaults('homestead', { apiAccessToken: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider(true);
-        },
-        name: 'InfuraProvider - true',
-        properties: getDefaults('ropsten', { apiAccessToken: null })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider(true, 'abcdefg');
-        },
-        name: 'InfuraProvider - true + API token',
-        properties: getDefaults('ropsten', { apiAccessToken: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider('ropsten', 'abcdefg');
-        },
-        name: 'InfuraProvider - ropsten + API token',
-        properties: getDefaults('ropsten', { apiAccessToken: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider('rinkeby');
-        },
-        name: 'InfuraProvider - rinkeby',
-        properties: getDefaults('rinkeby', { apiAccessToken: null })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider('rinkeby', 'abcdefg');
-        },
-        name: 'InfuraProvider - rinkeby + API token',
-        properties: getDefaults('rinkeby', { apiAccessToken: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.InfuraProvider(providers.networks.rinkeby, 'abcdefg');
-        },
-        name: 'InfuraProvider - rinkeby + API token',
-        properties: getDefaults('rinkeby', { apiAccessToken: 'abcdefg' })
-    },
-
-    // EtherscanProvider
-    {
-        create: function() {
-            return new providers.EtherscanProvider();
-        },
-        name: 'EtherscanProvider - defaults',
-        properties: getDefaults('homestead', { apiKey: null })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider(false);
-        },
-        name: 'EtherscanProvider - false',
-        properties: getDefaults('homestead', { apiKey: null })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider('homestead');
-        },
-        name: 'EtherscanProvider - homestead',
-        properties: getDefaults('homestead', { apiKey: null })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider(false, 'abcdefg');
-        },
-        name: 'EtherscanProvider - false + API token',
-        properties: getDefaults('homestead', { apiKey: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider('homestead', 'abcdefg');
-        },
-        name: 'EtherscanProvider - homestead + API token',
-        properties: getDefaults('homestead', { apiKey: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider(true);
-        },
-        name: 'EtherscanProvider - true',
-        properties: getDefaults('ropsten', { apiKey: null })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider(true, 'abcdefg');
-        },
-        name: 'EtherscanProvider - true + API token',
-        properties: getDefaults('ropsten', { apiKey: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider('ropsten', 'abcdefg');
-        },
-        name: 'EtherscanProvider - ropsten + API token',
-        properties: getDefaults('ropsten', { apiKey: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider('rinkeby');
-        },
-        name: 'EtherscanProvider - rinkeby',
-        properties: getDefaults('rinkeby', { apiKey: null })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider('rinkeby', 'abcdefg');
-        },
-        name: 'EtherscanProvider - rinkeby + API token',
-        properties: getDefaults('rinkeby', { apiKey: 'abcdefg' })
-    },
-    {
-        create: function() {
-            return new providers.EtherscanProvider(providers.networks.rinkeby, 'abcdefg');
-        },
-        name: 'EtherscanProvider - Network:rinkeby + API token',
-        properties: getDefaults('rinkeby', { apiKey: 'abcdefg' })
-    },
-
-    // JsonRpcProvider
-    {
-        create: function() {
-            return new providers.JsonRpcProvider(undefined, 101);
-        },
-        name: 'JsonRpcProvider - undef + chainId',
-        properties: getDefaults('homestead', { chainId: 101, url: 'http://localhost:8545' })
-    },
-    {
-        create: function() {
-            return new providers.JsonRpcProvider('http://something', undefined, 101);
-        },
-        name: 'JsonRpcProvider - URL + undef + chainId',
-        properties: getDefaults('homestead', { chainId: 101, url: 'http://something' })
-    },
-    {
-        create: function() {
-            return new providers.JsonRpcProvider(false, 101);
-        },
-        name: 'JsonRpcProvider - false + chainId',
-        properties: getDefaults('homestead', { chainId: 101, url: 'http://localhost:8545' })
-    },
-    {
-        create: function() {
-            return new providers.JsonRpcProvider('http://something', false, 101);
-        },
-        name: 'JsonRpcProvider - URL + false + chainId',
-        properties: getDefaults('homestead', { chainId: 101, url: 'http://something' })
-    },
-    {
-        create: function() {
-            return new providers.JsonRpcProvider(true, 101);
-        },
-        name: 'JsonRpcProvider - true + chainId',
-        properties: getDefaults('ropsten', { chainId: 101, url: 'http://localhost:8545' })
-    },
-    {
-        create: function() {
-            return new providers.JsonRpcProvider('http://something', true, 101);
-        },
-        name: 'JsonRpcProvider - URL + true + chainId',
-        properties: getDefaults('ropsten', { chainId: 101, url: 'http://something' })
-    },
-];
-
-[true, false, 'default', 'homestead', 'ropsten', 'rinkeby', 'kovan'].forEach(function(networkName) {
-    var defaultsName = networkName;
-    if (networkName === false || networkName === 'default') {
-        defaultsName = 'homestead';
-    } else if (networkName === true) {
-        defaultsName = 'ropsten';
-    }
-
-    LegacyParameters.push({
-        create: function() {
-            if (networkName === 'default') {
-                return providers.getDefaultProvider();
-            }
-            return providers.getDefaultProvider(networkName);
-        },
-        name: ('getDefaultProvider - ' + networkName),
-        properties: getDefaults(defaultsName, { })
-    });
-
-    if (providers.networks[networkName]) {
-        LegacyParameters.push({
-            create: function() {
-                return providers.getDefaultProvider(providers.networks[networkName]);
-            },
-            name: ('getDefaultProvider - network:' + networkName),
-            properties: getDefaults(defaultsName, { })
-        });
-    }
-});
-
-[true, false, 'default', 'homestead', 'ropsten', 'rinkeby', 'kovan'].forEach(function(networkName) {
-    var defaultsName = networkName;
-    if (networkName === false || networkName === 'default') {
-        defaultsName = 'homestead';
-    } else if (networkName === true) {
-        defaultsName = 'ropsten';
-    }
-
-    LegacyParameters.push({
-        create: function() {
-            if (networkName === 'default') {
-                return new providers.JsonRpcProvider();
-            }
-            return new providers.JsonRpcProvider(networkName);
-        },
-        name: ('JsonRpcProvider - ' + networkName),
-        properties: getDefaults(defaultsName, { url: 'http://localhost:8545' })
-    });
-
-    LegacyParameters.push({
-        create: function() {
-            if (networkName === 'default') {
-                return new providers.JsonRpcProvider('http://something');
-            }
-            return new providers.JsonRpcProvider('http://something', networkName);
-        },
-        name: ('JsonRpcProvider - URL + ' + networkName),
-        properties: getDefaults(defaultsName, { url: 'http://something' })
-    });
-});
-
-describe('Test legacy provider arguments', function() {
-    LegacyParameters.forEach(function(test) {
-        it(('creates legacy - ' + test.name), function() {
-            var provider = test.create();
-            for (var key in test.properties) {
-                assert.equal(provider[key], test.properties[key], ('provider equals ' + key));
-            }
+*/
+/*
+describe('Test extra Etherscan operations', function() {
+    var provider = new providers.EtherscanProvider();
+    it('fethces the current price of ether', function() {
+        this.timeout(20000);
+        return provider.getEtherPrice().then(function(price) {
+            assert.ok(typeof(price) === 'number', 'Etherscan price returns a number');
+            assert.ok(price > 0.0, 'Etherscan price returns non-zero');
         });
     });
+    it('fetches the history', function() {
+        this.timeout(100000);
+        return provider.getHistory('ricmoo.firefly.eth').then(function(history) {
+            assert.ok(history.length > 40, 'Etherscan history returns results');
+            assert.equal(history[0].hash, '0xd25f550cfdff90c086a6496a84dbb2c4577df15b1416e5b3319a3e4ebb5b25d8', 'Etherscan history returns correct transaction');
+        });
+    });
+});
+*/
+describe('Test Basic Authentication', function() {
+    // https://stackoverflow.com/questions/6509278/authentication-test-servers#16756383
+
+    //var Provider = ethers.Provider;
+
+    function test(name, url) {
+        it('tests ' + name, function() {
+            this.timeout(20000);
+            return ethers.utils.fetchJson(url).then(function(data) {
+                assert.equal(data.authenticated, true, 'authenticates user');
+            });
+        });
+    }
+
+    var secure = {
+        url: 'https://httpbin.org/basic-auth/user/passwd',
+        user: 'user',
+        password: 'passwd'
+    };
+
+    var insecure = {
+        url: 'http://httpbin.org/basic-auth/user/passwd',
+        user: 'user',
+        password: 'passwd'
+    };
+
+    var insecureForced = {
+        url: 'http://httpbin.org/basic-auth/user/passwd',
+        user: 'user',
+        password: 'passwd',
+        allowInsecure: true
+    };
+
+    test('secure url', secure);
+    test('insecure url', insecureForced);
+
+    it('tests insecure connections fail', function() {
+        this.timeout(20000);
+        assert.throws(function() {
+            ethers.utils.fetchJson(insecure);
+        }, function(error) {
+            return (error.reason === 'basic authentication requires a secure https url');
+        }, 'throws an exception for insecure connections');
+    })
 });
